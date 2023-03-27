@@ -20,6 +20,8 @@ process CHECK_INTEGRITY {
     label 'default'
     errorStrategy 'finish'
     time '1h'
+    label 'dishasContainer'
+
 
     input:
         path manifest_dir

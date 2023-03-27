@@ -16,6 +16,8 @@
 process COLLECT_FILES {
     tag "Collect_files"
     label 'default'
+    label 'dishasContainer'
+
     time '5min'
 
     input:

@@ -14,3 +14,9 @@ This is an example of how the tree folder for Nextflow pipelines has been agreed
             │   └── nextflow.config
             └── nexflow.config
 ```
+
+## BUILD CONTAINER
+
+```
+singularity build dishaContainer.sif SingularityFile
+```

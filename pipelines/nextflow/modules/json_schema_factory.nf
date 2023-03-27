@@ -16,6 +16,7 @@
 process JSON_SCHEMA_FACTORY {
     tag "$manifest_dir.name"
     label 'default'
+    label 'dishasContainer'
 
     input:
         path manifest_dir

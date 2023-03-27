@@ -1,0 +1,22 @@
+Bootstrap: docker
+From: ubuntu:20.04
+
+%post
+    # Install system dependencies
+    apt update
+    apt install -y build-essential pip git
+    mkdir /app/
+    cd /app/
+    git clone https://github.com/Ensembl/ensembl-genomio.git
+    cd ensembl-genomio/
+    # remove this checkout after merge
+    #git checkout disha/nextflow_add_seq
+
+    # Install the ensembl-genomio package from the local directory
+    pip install ./
+
+    # Test the installation
+    #python3 -c 'import ensembl.brc4.runnable.read_json'
+
+%runscript
+    bin/bash/ "@"

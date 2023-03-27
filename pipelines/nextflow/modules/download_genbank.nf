@@ -5,6 +5,7 @@ process download_genbank {
     label "Sequence_genbank_file"
     tag "${accession}"
     label 'default'
+    label 'dishasContainer'
 
     input:
         val accession

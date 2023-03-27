@@ -5,6 +5,7 @@ params.merge_split_genes="False"
 process process_gff3 {
     tag "${gff3}"
     label 'default'
+    label 'dishasContainer'
 
     input:
         path gff3
