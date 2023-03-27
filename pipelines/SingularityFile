@@ -2,9 +2,10 @@ Bootstrap: docker
 From: ubuntu:20.04
 
 %post
+    DEBIAN_FRONTEND=noninteractive
     # Install system dependencies
     apt update
-    apt install -y build-essential pip git
+    apt install -y build-essential pip git #genometools
     mkdir /app/
     cd /app/
     git clone https://github.com/Ensembl/ensembl-genomio.git
@@ -14,9 +15,9 @@ From: ubuntu:20.04
 
     # Install the ensembl-genomio package from the local directory
     pip install ./
-
+    pip install argschema
     # Test the installation
     #python3 -c 'import ensembl.brc4.runnable.read_json'
 
 %runscript
-    bin/bash/ "@"
+    /bin/bash "@"

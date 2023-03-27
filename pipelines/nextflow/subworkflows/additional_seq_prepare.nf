@@ -32,7 +32,8 @@ workflow additional_seq_prepare {
         // 1st
         gb_file_ch = download_genbank(accession)
         extract_from_gb(prefix, PROD_NAME, gb_file_ch)
-
+        process_gff3(extract_from_gb.out.gene_gff, extract_from_gb.out.genome)
+        
         // get manifest
         json_files_ch = extract_from_gb.out.genome.concat(extract_from_gb.out.seq_regions, process_gff3.out.functional_annotation)
         json_files_checked = CHECK_JSON_SCHEMA(json_files_ch)
@@ -47,7 +48,6 @@ workflow additional_seq_prepare {
         //PUBLISH_DIR(manifest_checked, accession)
 
         // process gff3
-        process_gff3(extract_from_gb.out.gene_gff, extract_from_gb.out.genome)
         gff3_validation(process_gff3.out.gene_models)
 
 }

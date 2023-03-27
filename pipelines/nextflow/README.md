@@ -20,3 +20,7 @@ This is an example of how the tree folder for Nextflow pipelines has been agreed
 ```
 singularity build dishaContainer.sif SingularityFile
 ```
+
+```
+nextflow run add_seq_prepare.nf --accession NC_000884.1 --prefix “PREFIX_” --production_name “species_name”
+```

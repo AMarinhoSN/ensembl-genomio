@@ -45,7 +45,7 @@ process MANIFEST {
     label 'default'
     publishDir "$params.outdir/results", mode: 'copy', overwrite: false 
     input:
-        tuple val(accesion), paths(files)
+        tuple val(accesion), path(files)
         //path out_dir
         //val accession
     output:
