@@ -24,11 +24,12 @@ process COLLECT_FILES {
         tuple val(accession), path(file_name)
     
     output:
-        path "${accession}"
+        path "${all_files_path}"
     
     script:
+        all_files_path = "${accesion}"
         """
-        DBDIR=${accession}/
+        DBDIR=${all_files_path}/
         mkdir \$DBDIR
         echo ${file_name}
         for FILE in ${file_name}; do
@@ -42,17 +43,16 @@ process COLLECT_FILES {
 process MANIFEST {
     tag 'manifest.json'
     label 'default'
-    
+    publishDir "$params.outdir/results", mode: 'copy', overwrite: false 
     input:
-        path out_dir
-        val accession
-
+        tuple val(accesion), paths(files)
+        //path out_dir
+        //val accession
     output:
-        path out_dir
-    
+        path("*.json")
     script:
         """
-        manifest_maker --manifest_dir ${out_dir}
+        manifest_maker --manifest_dir ./
         """
 }
 

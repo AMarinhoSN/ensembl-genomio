@@ -29,18 +29,25 @@ workflow additional_seq_prepare {
         brc_mode
 
     main:
+        // 1st
         gb_file_ch = download_genbank(accession)
         extract_from_gb(prefix, PROD_NAME, gb_file_ch)
-        annotation = process_gff3(extract_from_gb.out.gene_gff, extract_from_gb.out.genome)
-        gff3_validation(process_gff3.out.gene_models)
-        json_files = extract_from_gb.out.genome.concat(extract_from_gb.out.seq_regions, process_gff3.out.functional_annotation)
-        json_files_checked = CHECK_JSON_SCHEMA(json_files)
-        all_files = json_files_checked
+
+        // get manifest
+        json_files_ch = extract_from_gb.out.genome.concat(extract_from_gb.out.seq_regions, process_gff3.out.functional_annotation)
+        json_files_checked = CHECK_JSON_SCHEMA(json_files_ch)
+        all_files_ch = json_files_checked
                         .concat(extract_from_gb.out.dna_fasta, extract_from_gb.out.pep_fasta)
-                        .map{it -> [accession, it]}
+                        .map{it -> [accession, it]} // tuple (accession, [genome_json, seq_region_json, functional_anno.json, dna.fasta, pep.fasta])
                         .groupTuple()
-        collect_dir = COLLECT_FILES(all_files)
-        manifested_dir = MANIFEST(collect_dir, accession)
-        manifest_checked = CHECK_INTEGRITY(manifested_dir, brc_mode)
-        PUBLISH_DIR(manifest_checked, accession)
+        //collect_dir = COLLECT_FILES(all_files_ch)
+        //manifested_dir = MANIFEST(collect_dir, accession)
+        manifested_file_ch = MANIFEST(all_files_ch)
+        manifest_checked = CHECK_INTEGRITY(manifested_file_ch, brc_mode)
+        //PUBLISH_DIR(manifest_checked, accession)
+
+        // process gff3
+        process_gff3(extract_from_gb.out.gene_gff, extract_from_gb.out.genome)
+        gff3_validation(process_gff3.out.gene_models)
+
 }

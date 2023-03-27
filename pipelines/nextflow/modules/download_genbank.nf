@@ -11,7 +11,7 @@ process download_genbank {
         val accession
 
     output:
-       path "*.gb"
+       tuple val(accesion), path("*.gb")
 
     script:
     """
